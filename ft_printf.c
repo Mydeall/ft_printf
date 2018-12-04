@@ -6,24 +6,20 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:06:56 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/03 18:19:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/04 18:34:14 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdarg.h>
 #include <stdio.h>
+#include <stdarg.h>
 
-int	format_parser(const char * restrict format, t_stack **stack)
+int	format_parser(const char * restrict format, t_stack *new)
 {
 	int		i;
 	char	*tmp;
 	char	*tmp2;
-	t_stack	*new;
 
-	if (!(new = (t_stack*)ft_memalloc(sizeof(t_stack))))
-		return (1);
-	new->precision = -1;
 	i = 0; 
 	while (ft_strchr("#+-0 .0123456789hlL", format[++i]))
 	{
@@ -36,7 +32,7 @@ int	format_parser(const char * restrict format, t_stack **stack)
 				tmp = ft_strsub(&format[i], 0, 1);
 				tmp2 = new->attributs;
 				if (!(new->attributs = ft_strjoin(new->attributs, tmp)))
-					return (1);
+					return (-1);
 				ft_strdel(&tmp);
 				ft_strdel(&tmp);
 			}
@@ -63,45 +59,54 @@ int	format_parser(const char * restrict format, t_stack **stack)
 			if (format[i + 1] == format[i] && format[i] != 'L')
 			{
 				if (!(new->modifier = ft_strsub(format, i, 2)))
-					return (1);
+					return (-1);
 				i++;
 			}
 			else
 				if (!(new->modifier = ft_strsub(&format[i], 0, 1)))
-					return (1);
+					return (-1);
 		}
 	}
 	if (ft_strchr("diouxXcspf", format[i]))
 		new->format = format[i];
-	lst_add_back(stack, new);
-	return (0);
+	i++;
+	return (i);
 }
 
 int	ft_printf(const char * restrict format, ...)
 {
-	int 	nb_arg;
 	int 	i;
-	t_stack	**stack;
+	int 	j;
+	t_stack	*stack;
+	va_list	ap;
 
-	if (!(stack = (t_stack**)ft_memalloc(sizeof(t_stack*))))
+	if (!(stack = (t_stack*)ft_memalloc(sizeof(t_stack))))
 		return (0);
-	nb_arg = 0;
 	i = -1;
+	va_start(ap, format);
 	while (format[++i])
 	{
 		if (format[i] == '%')
 		{
+			j = 0;
 			if (format[i + 1] != '%')
 			{
-				if (format_parser(&format[i], stack))
+				write(1, format, i);
+				if ((j = format_parser(&format[i], stack)) == -1)
 					return (-1);
-				nb_arg++;
+				stack_applier(stack, ap);
+				node_reset(stack);
 			}
 			else
-				i++;
+			{
+				write(1, format, i + 1);
+				i += 2;
+			}
+			format = &format[i + j];
+			i = -1;
 		}
 	}
-	if (*stack)
-		print_lst(*stack);
-	return (nb_arg);
+	write(1, format, ft_strlen(format));
+	va_end(ap);
+	return (0);
 }

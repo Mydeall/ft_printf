@@ -6,7 +6,7 @@
 #    By: anrzepec <anrzepec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/17 19:12:20 by anrzepec          #+#    #+#              #
-#    Updated: 2018/12/03 16:17:22 by ccepre           ###   ########.fr        #
+#    Updated: 2018/12/04 19:53:47 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,19 @@ NAME 	= ft_printf
 
 SRC 	=  main.c \
 		   ft_printf.c \
-		   lst_functions.c
+		   lst_functions.c \
+		   stack_applier.c \
+		   ft_format.c \
+		   ft_modifier.c \
+		   ft_conversion.c \
+		   ft_precision.c \
+		   ft_attributs.c
 
 OBJS	=	$(SRC:.c=.o)
 
 CC		=	gcc
 
-CFLAGS	+=	-Werror -Wall -Wextra
+CFLAGS	+=	
 
 RM		=	rm -f
 
