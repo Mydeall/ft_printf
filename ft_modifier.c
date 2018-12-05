@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:13:55 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/04 18:49:29 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/05 18:26:24 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // ATTENTION c accepte les modifier (gere comme un int ?)
 // Ne pas prendre s ni p
 
-int	int_modifier(int arg, t_stack *stack)
+long long int int_modifier(ULLI arg, t_stack *stack)
 {
 	if (!(stack->modifier) || stack->format == 'p')
 		return (arg);
@@ -28,5 +28,20 @@ int	int_modifier(int arg, t_stack *stack)
 		return ((long int)arg);
 	else if (ft_strcmp("ll", stack->modifier) == 0)
 		return ((long long int)arg);
-	return (arg);
+	return ((int)arg);
+}
+
+ULLI			unsigned_modifier(ULLI arg, t_stack *stack)
+{
+	if (!(stack->modifier) || stack->format == 'p')
+		return (arg);
+	else if (ft_strcmp("hh", stack->modifier) == 0)
+		return ((unsigned char)arg);
+	else if (ft_strcmp("h", stack->modifier) == 0)
+		return ((unsigned short int)arg);
+	else if (ft_strcmp("l", stack->modifier) == 0)
+		return ((unsigned long int)arg);
+	else if (ft_strcmp("ll", stack->modifier) == 0)
+		return ((unsigned long long int)arg);
+	return ((unsigned int)arg);
 }

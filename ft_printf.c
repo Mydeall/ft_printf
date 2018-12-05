@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:06:56 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/04 18:34:14 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/05 10:56:01 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	ft_printf(const char * restrict format, ...)
 
 	if (!(stack = (t_stack*)ft_memalloc(sizeof(t_stack))))
 		return (0);
+	node_reset(stack);
 	i = -1;
 	va_start(ap, format);
 	while (format[++i])

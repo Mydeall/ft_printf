@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 12:35:08 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/04 19:56:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/05 18:04:20 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_width(char *result, int width, char c, int side)
 	char	*str;
 	char	*tmp;
 
-	if (ft_strlen(result) < width)
+	if ((int)ft_strlen(result) < width)
 	{
 		if (!(str = (char*)ft_memalloc(width - ft_strlen(result) + 1)))
 			return (NULL);
@@ -33,24 +33,23 @@ char	*ft_width(char *result, int width, char c, int side)
 				return (NULL);
 		ft_strdel(&str);
 		ft_strdel(&tmp);
-		return (result);
 	}
 	return (result);
 }
 
-char	*attributs_caller(int arg, char *result, t_stack *stack)
+char	*attributs_caller(char *result, t_stack *stack)
 {
 	int i;
 	int j;
 
 	i = -1;
-	while ((stack->attributs)[++i])
+	while (stack->attributs && (stack->attributs)[++i])
 	{
 		j = -1;
 		while (++j < 5)
 			if (g_attr_tab[j].attr == (stack->attributs)[i])
 			{
-				if (!(result = g_attr_tab[j].f(arg, result, stack)))
+				if (!(result = g_attr_tab[j].f(result, stack)))
 					return (NULL);
 				break;
 			}
@@ -60,28 +59,35 @@ char	*attributs_caller(int arg, char *result, t_stack *stack)
 
 int		stack_applier(t_stack *stack, va_list ap)
 {
-	char			*s;
-	char			c;
-	int				d;
-	unsigned int	u;
-	double			f;
+	char	*s;
+	char	c;
+	ULLI	d;
+//	double	f;
 
+	if (!(s = (char*)ft_memalloc(2)))
+		return (-1);
+	*s = NULL;
 	if (stack->format == 's')
-		s = va_arg(ap, char*);
-	else if (ft_strchr("dioxXp", stack->format))
 	{
-		d = va_arg(ap, int);
-		if (!(s = int_format(d, stack) || \
-				!(s = attributs_caller(d, s, stack))))
+		s = va_arg(ap, char*);
+		if (!(s = str_format(s, stack)))
 			return (-1);
 	}
-/*	else if (stack->format == 'u')
-		u = va_arg(ap, unsigned int);
+	else if (ft_strchr("diouxXp", stack->format))
+	{
+		d = va_arg(ap, ULLI);
+		if (!(s = int_format(d, stack)))
+			return (-1);
+	}
 	else if (stack->format == 'c')
-		c = va_arg(ap, int);
-	else if (stack->format == 'f')
+		*s = va_arg(ap, int);
+/*	else if (stack->format == 'f')
 		f = va_arg(ap, double);
 */	
+	if (!(s = attributs_caller(s, stack)))
+		return (-1);
+	if (!(s = ft_width(s, stack->width, ' ', 0)))
+		return (-1);
 	write(1, s, ft_strlen(s));
 	return (0);
 }

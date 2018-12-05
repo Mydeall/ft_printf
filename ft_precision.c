@@ -6,13 +6,13 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:26:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/04 18:36:10 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/05 15:16:37 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*int_precision(char *result, int precision)
+static char	*int_precision(char *result, int precision)
 {
 	char	*str;
 	char	*tmp;
@@ -31,9 +31,26 @@ char	*int_precision(char *result, int precision)
 	return (result);
 }
 
+static char	*str_precision(char *result, int precision)
+{
+	char	*tmp;
+
+	if (result && precision != -1 && (int)ft_strlen(result) > precision)
+	{
+		tmp = result;
+		result = ft_strsub(result, 0, precision);
+		ft_strdel(&tmp);
+	}
+	return (result);
+}
+
 char	*precision(char	*result, t_stack *stack)
 {
 	if (ft_strchr("diouxXp", stack->format))
 		return (int_precision(result, stack->precision));
+	else if (stack->format == 's')
+	{
+		return (str_precision(result, stack->precision));
+	}
 	return (result);
 }

@@ -6,7 +6,7 @@
 #    By: anrzepec <anrzepec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/17 19:12:20 by anrzepec          #+#    #+#              #
-#    Updated: 2018/12/04 19:53:47 by ccepre           ###   ########.fr        #
+#    Updated: 2018/12/05 16:03:14 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ OBJS	=	$(SRC:.c=.o)
 
 CC		=	gcc
 
+//CFLAGS	+=	-Wall -Werror -Wextra
 CFLAGS	+=	
 
 RM		=	rm -f
