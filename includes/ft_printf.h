@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 11:22:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/05 18:22:58 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/06 15:42:07 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char				*ft_minus(char *result, t_stack *stack);
 char				*ft_plus(char *result, t_stack *stack);
 char				*ft_space(char *result, t_stack *stack);
 char				*str_format(char *arg, t_stack *stack);
+char				*f_format(long double arg, t_stack *stack);
+long double			f_modifier(long double arg, t_stack *stack);
 
 typedef struct		s_attributs
 {

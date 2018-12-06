@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 12:35:08 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/05 18:04:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/06 17:18:16 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,10 @@ int		stack_applier(t_stack *stack, va_list ap)
 	char	*s;
 	char	c;
 	ULLI	d;
-//	double	f;
+	long double	f;
 
 	if (!(s = (char*)ft_memalloc(2)))
 		return (-1);
-	*s = NULL;
 	if (stack->format == 's')
 	{
 		s = va_arg(ap, char*);
@@ -81,9 +80,11 @@ int		stack_applier(t_stack *stack, va_list ap)
 	}
 	else if (stack->format == 'c')
 		*s = va_arg(ap, int);
-/*	else if (stack->format == 'f')
-		f = va_arg(ap, double);
-*/	
+	else if (stack->format == 'f')
+	{
+		f = va_arg(ap, long double);
+		s = f_format(f, stack);
+	}
 	if (!(s = attributs_caller(s, stack)))
 		return (-1);
 	if (!(s = ft_width(s, stack->width, ' ', 0)))

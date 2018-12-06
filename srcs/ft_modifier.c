@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:13:55 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/05 18:26:24 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/06 17:18:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,11 @@ ULLI			unsigned_modifier(ULLI arg, t_stack *stack)
 	else if (ft_strcmp("ll", stack->modifier) == 0)
 		return ((unsigned long long int)arg);
 	return ((unsigned int)arg);
+}
+
+long double		f_modifier(long double arg, t_stack *stack)
+{
+	if (stack->modifier && ft_strcmp("L", stack->modifier))
+		return ((double)arg);
+	return (arg);
 }
