@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:13:55 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/06 17:18:05 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:42:40 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 long long int int_modifier(ULLI arg, t_stack *stack)
 {
 	if (!(stack->modifier) || stack->format == 'p')
-		return (arg);
+		return ((int)arg);
 	else if (ft_strcmp("hh", stack->modifier) == 0)
 		return ((char)arg);
 	else if (ft_strcmp("h", stack->modifier) == 0)
@@ -34,7 +34,7 @@ long long int int_modifier(ULLI arg, t_stack *stack)
 ULLI			unsigned_modifier(ULLI arg, t_stack *stack)
 {
 	if (!(stack->modifier) || stack->format == 'p')
-		return (arg);
+		return ((unsigned int)arg);
 	else if (ft_strcmp("hh", stack->modifier) == 0)
 		return ((unsigned char)arg);
 	else if (ft_strcmp("h", stack->modifier) == 0)

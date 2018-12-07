@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:19:16 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/05 17:17:00 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:35:41 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*unsigned_conversion(ULLI arg, t_stack *stack)
 {
 	if (stack->format == 'o')
-		return (ft_itoa_base(arg, "012345678"));
+		return (ft_itoa_base(arg, "01234567"));
 	else if (stack->format == 'X')
 		return (ft_itoa_base(arg, "0123456789ABCDEF"));
 	else if (stack->format == 'x' || stack->format == 'p')

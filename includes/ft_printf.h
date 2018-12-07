@@ -6,16 +6,16 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 11:22:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/06 15:42:07 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 15:21:01 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H 
 # define FT_PRINTF_H
 
-#include <stdio.h>
-# include "libft/libft.h"
-#include <stdarg.h>
+# include <stdio.h>
+# include "libft.h"
+# include <stdarg.h>
 typedef unsigned long long int ULLI;
 
 typedef struct		s_stack
@@ -36,7 +36,7 @@ char    			*precision(char *result, t_stack *stack);
 long long int		int_modifier(ULLI arg, t_stack *stack);
 ULLI				unsigned_modifier(ULLI arg, t_stack *stack);
 char    			*unsigned_conversion(ULLI arg, t_stack *stack);
-char			    *ft_width(char *result, int width, char c, int side);
+char			    *ft_width(char *result, t_stack *stack);
 char			    *ft_hashtag(char *result, t_stack *stack);
 char    			*ft_zero(char *result, t_stack *stack);
 char				*ft_minus(char *result, t_stack *stack);

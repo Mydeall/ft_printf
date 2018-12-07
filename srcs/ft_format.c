@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:33:41 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/06 17:34:02 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:41:03 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*int_format(ULLI arg, t_stack *stack)
 	{
 		ucpy = unsigned_modifier(arg, stack);
 		result = unsigned_conversion(ucpy, stack);
+//		printf("result %s\n", result);
 	}
 	result = precision(result, stack);
 	if (stack->format == 'p')

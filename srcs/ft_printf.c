@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:06:56 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/06 14:33:22 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:30:31 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_printf(const char * restrict format, ...)
 {
 	int 	i;
 	int 	j;
+	size_t	len;
 	t_stack	*stack;
 	va_list	ap;
 
@@ -84,7 +85,10 @@ int	ft_printf(const char * restrict format, ...)
 		return (0);
 	node_reset(stack);
 	i = -1;
+	len = 0;
 	va_start(ap, format);
+	if (!(format))
+		return (0);
 	while (format[++i])
 	{
 		if (format[i] == '%')
@@ -95,7 +99,8 @@ int	ft_printf(const char * restrict format, ...)
 				write(1, format, i);
 				if ((j = format_parser(&format[i], stack)) == -1)
 					return (-1);
-				stack_applier(stack, ap);
+//				print_node(stack);
+				len += stack_applier(stack, ap);
 				node_reset(stack);
 			}
 			else
@@ -104,10 +109,12 @@ int	ft_printf(const char * restrict format, ...)
 				i += 2;
 			}
 			format = &format[i + j];
+			len += i;
 			i = -1;
 		}
 	}
+	len += i;
 	write(1, format, ft_strlen(format));
 	va_end(ap);
-	return (0);
+	return (len);
 }

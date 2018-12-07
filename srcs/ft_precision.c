@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:26:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/05 15:16:37 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 18:32:10 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 static char	*int_precision(char *result, int precision)
 {
 	char	*str;
-	char	*tmp;
 
-	if ((int)ft_strlen(result) < precision)
+	if (result && (int)ft_strlen(result) < precision)
 	{
 		if (!(str = (char*)ft_memalloc(precision - ft_strlen(result) + 1)))
 			return (NULL);
 		ft_memset(str, '0', precision - ft_strlen(result));
-		tmp = result;
 		if (!(result = ft_strjoin(str, result)))
 			return (NULL);
 		ft_strdel(&str);
-		ft_strdel(&tmp);
+	}
+	else if (result && precision == 0 && !(ft_strcmp(result, "0")))
+	{
+		ft_strdel(&result);
+		result = ft_strnew(1);
 	}
 	return (result);
 }
@@ -46,8 +48,27 @@ static char	*str_precision(char *result, int precision)
 
 char	*precision(char	*result, t_stack *stack)
 {
-	if (ft_strchr("diouxXp", stack->format))
-		return (int_precision(result, stack->precision));
+	char *tmp;
+	char *sub;
+	int i;
+
+	if (result && ft_strchr("diouxXp", stack->format))
+	{
+		i = 0;
+		if (ft_strcmp(result, "0"))
+			while (result && result[i] && (result[i] < '1' || result[i] > '9'))
+				i++;
+		if (!(sub = ft_strsub(result, 0, i)))
+			return (NULL);
+		tmp = result;
+		result = int_precision(&result[i], stack->precision);
+//		ft_strdel(&tmp);
+		tmp = result;
+		result = ft_strjoin(sub, result);
+	//	ft_strdel(&tmp);
+	//	ft_strdel(&sub);
+		return (result);
+	}
 	else if (stack->format == 's')
 	{
 		return (str_precision(result, stack->precision));

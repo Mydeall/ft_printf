@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 18:51:37 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/05 15:07:46 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 15:52:59 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_hashtag(char *result, t_stack *stack)
 		ft_strdel(&tmp);
 	return (result);
 }
-
+/*
 char	*ft_zero(char *result, t_stack *stack)
 {
 	if (stack->precision == -1)
@@ -52,7 +52,7 @@ char	*ft_minus(char *result, t_stack *stack)
 {
 	return (ft_width(result, stack->width, ' ', 1));
 }
-
+*/
 char	*ft_plus(char *result, t_stack *stack)
 {
 	char *tmp;
@@ -73,7 +73,7 @@ char	*ft_space(char *result, t_stack *stack)
 {
 	char *tmp;
 
-	if (ft_strchr("dif", stack->format))
+	if (ft_strchr("dif", stack->format) && !ft_strchr(stack->attributs, '+'))
 	{
 		if (ft_atoi(result) >= 0) // IDEM
 		{

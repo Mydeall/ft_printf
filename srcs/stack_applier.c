@@ -6,36 +6,13 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 12:35:08 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/06 17:18:16 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/07 16:39:00 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "declaration.h"
 #include <stdarg.h>
-
-char	*ft_width(char *result, int width, char c, int side)
-{
-	char	*str;
-	char	*tmp;
-
-	if ((int)ft_strlen(result) < width)
-	{
-		if (!(str = (char*)ft_memalloc(width - ft_strlen(result) + 1)))
-			return (NULL);
-		ft_memset(str, c, width - ft_strlen(result));
-		tmp = result;
-		if (side == 0)
-			if (!(result = ft_strjoin(str, result)))
-				return (NULL);
-		if (side == 1)
-			if (!(result = ft_strjoin(result, str)))
-				return (NULL);
-		ft_strdel(&str);
-		ft_strdel(&tmp);
-	}
-	return (result);
-}
 
 char	*attributs_caller(char *result, t_stack *stack)
 {
@@ -46,7 +23,7 @@ char	*attributs_caller(char *result, t_stack *stack)
 	while (stack->attributs && (stack->attributs)[++i])
 	{
 		j = -1;
-		while (++j < 5)
+		while (++j < 3)
 			if (g_attr_tab[j].attr == (stack->attributs)[i])
 			{
 				if (!(result = g_attr_tab[j].f(result, stack)))
@@ -60,7 +37,6 @@ char	*attributs_caller(char *result, t_stack *stack)
 int		stack_applier(t_stack *stack, va_list ap)
 {
 	char	*s;
-	char	c;
 	ULLI	d;
 	long double	f;
 
@@ -70,7 +46,7 @@ int		stack_applier(t_stack *stack, va_list ap)
 	{
 		s = va_arg(ap, char*);
 		if (!(s = str_format(s, stack)))
-			return (-1);
+			s = ft_strdup("(null)");
 	}
 	else if (ft_strchr("diouxXp", stack->format))
 	{
@@ -85,10 +61,13 @@ int		stack_applier(t_stack *stack, va_list ap)
 		f = va_arg(ap, long double);
 		s = f_format(f, stack);
 	}
+	if (!s)
+		return (-1);
 	if (!(s = attributs_caller(s, stack)))
 		return (-1);
-	if (!(s = ft_width(s, stack->width, ' ', 0)))
+//	printf("s : |%s|\n", s);
+	if (!(s = ft_width(s, stack)))
 		return (-1);
 	write(1, s, ft_strlen(s));
-	return (0);
+	return (ft_strlen(s));
 }
