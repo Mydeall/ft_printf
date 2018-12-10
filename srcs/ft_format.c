@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:33:41 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/07 14:41:03 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/10 19:05:50 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*int_format(ULLI arg, t_stack *stack)
 	{
 		ucpy = unsigned_modifier(arg, stack);
 		result = unsigned_conversion(ucpy, stack);
-//		printf("result %s\n", result);
 	}
 	result = precision(result, stack);
 	if (stack->format == 'p')
@@ -47,6 +46,22 @@ char	*str_format(char *arg, t_stack *stack)
 	result = ft_strdup(arg);
 	result = precision(result, stack);
 	return (result);
+}
+
+int		char_format(int arg, t_stack *stack)
+{
+	char	*result;
+	int		len;
+
+	if (!(result = (char*)ft_memalloc(2)))
+		return (-1);
+	*result = (char)arg;
+	if (!(result = ft_width(result, stack, 1)))
+		return (-1);
+	len = ft_strlen(result);
+	len = arg == 0 ? len + 1 : len;
+	write(1, result, len);
+	return (len);
 }
 
 char	*f_format(long double arg, t_stack *stack)

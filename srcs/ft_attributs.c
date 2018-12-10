@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 18:51:37 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/07 15:52:59 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/10 19:00:37 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_hashtag(char *result, t_stack *stack)
 	char *tmp;
 	int verif;
 
-	if (!(ft_strchr("oxXf", stack->format)))
+	if (!(ft_strchr("oxXfb", stack->format)))
 		return (result);
 	tmp = result;
 	if (stack->format == 'f' && stack->precision == 0)
@@ -27,7 +27,9 @@ char	*ft_hashtag(char *result, t_stack *stack)
 		verif = 0;
 		while (result[verif] == '0')
 			verif++;
-		if (verif == (int)ft_strlen(result))
+		if (verif == (int)ft_strlen(result) &&\
+				!(stack->precision == 0 && (int)ft_strlen(result) == 0 &&\
+				   	stack->format == 'o'))
 			return (result);
 		if (stack->format == 'o')
 			result = ft_strjoin("0", result);
@@ -35,24 +37,14 @@ char	*ft_hashtag(char *result, t_stack *stack)
 			result = ft_strjoin("0x", result);
 		else if (stack->format == 'X')
 			result = ft_strjoin("0X", result);
+		else if (stack->format == 'b')
+			result = ft_strjoin("b", result);
 	}
 	if (tmp != result)
 		ft_strdel(&tmp);
 	return (result);
 }
-/*
-char	*ft_zero(char *result, t_stack *stack)
-{
-	if (stack->precision == -1)
-		result = ft_width(result, stack->width, '0', 0);
-	return (result);
-}
 
-char	*ft_minus(char *result, t_stack *stack)
-{
-	return (ft_width(result, stack->width, ' ', 1));
-}
-*/
 char	*ft_plus(char *result, t_stack *stack)
 {
 	char *tmp;

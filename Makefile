@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2018/12/07 16:34:10 by ccepre           ###   ########.fr        #
+#    Updated: 2018/12/10 10:48:11 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ FLAGS = -Wall -Wextra -Werror
 LIB_PATH = ./libft
 SRC_PATH = ./srcs
 INC_PATH = ./includes
+MAIN_PATH = ./..
 
 LIB_NAME = ft_itoa.c\
 		   ft_strcpy.c\
@@ -66,7 +67,7 @@ all : $(NAME)
 %.o : %.c
 	gcc $(FLAGS) -c $< -o $@ -I $(INC_PATH) 
 
-.PHONY : clean fclean re
+.PHONY : sani exec clean fclean re
 
 $(NAME) : $(OBJ_SRC) $(OBJ_LIB) $(INC)
 	ar rc $(NAME) $(OBJ_SRC) $(OBJ_LIB)
@@ -80,3 +81,11 @@ fclean : clean
 	rm -f $(NAME)
 
 re : fclean all
+
+exec : $(NAME)
+	@gcc $(NAME) $(MAIN_PATH)/main.c -I $(INC_PATH)
+	@./a.out
+
+sani: $(NAME)
+	gcc -g3 -fsanitize=address $(NAME) $(MAIN_PATH)/main.c -I $(INC_PATH)
+	./a.out

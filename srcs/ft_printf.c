@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:06:56 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/07 14:30:31 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/10 15:50:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	format_parser(const char * restrict format, t_stack *new)
 	char	*tmp;
 	char	*tmp2;
 
-	i = 0; 
-	while (ft_strchr("#+-0 .0123456789hlL", format[++i]))
+	i = -1; 
+	while (ft_strchr("#+-0 .0123456789hlL", format[++i]) && format[i] != 0)
 	{
 		if (ft_strchr("#+-0 ", format[i]))
 		{
@@ -67,9 +67,11 @@ int	format_parser(const char * restrict format, t_stack *new)
 					return (-1);
 		}
 	}
-	if (ft_strchr("diouxXcspf", format[i]))
+	if (format[i] != 0)
+	{
 		new->format = format[i];
-	i++;
+		i++;
+	}
 	return (i);
 }
 
@@ -77,6 +79,7 @@ int	ft_printf(const char * restrict format, ...)
 {
 	int 	i;
 	int 	j;
+	int k;
 	size_t	len;
 	t_stack	*stack;
 	va_list	ap;
@@ -94,21 +97,13 @@ int	ft_printf(const char * restrict format, ...)
 		if (format[i] == '%')
 		{
 			j = 0;
-			if (format[i + 1] != '%')
-			{
-				write(1, format, i);
-				if ((j = format_parser(&format[i], stack)) == -1)
-					return (-1);
-//				print_node(stack);
-				len += stack_applier(stack, ap);
-				node_reset(stack);
-			}
-			else
-			{
-				write(1, format, i + 1);
-				i += 2;
-			}
-			format = &format[i + j];
+			write(1, format, i);
+			if ((j = format_parser(&format[i + 1], stack)) == -1)
+				return (-1);
+			k = stack_applier(stack, ap);
+			len += k;
+			node_reset(stack);
+			format = &format[i + j + 1];
 			len += i;
 			i = -1;
 		}

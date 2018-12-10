@@ -6,11 +6,24 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:26:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/07 18:32:10 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/10 19:12:53 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static char	*str_precision(char *result, int precision)
+{
+	char	*tmp;
+
+	if (result && precision != -1 && (int)ft_strlen(result) > precision)
+	{
+		tmp = result;
+		result = ft_strsub(result, 0, precision);
+		ft_strdel(&tmp);
+	}
+	return (result);
+}
 
 static char	*int_precision(char *result, int precision)
 {
@@ -33,30 +46,17 @@ static char	*int_precision(char *result, int precision)
 	return (result);
 }
 
-static char	*str_precision(char *result, int precision)
-{
-	char	*tmp;
-
-	if (result && precision != -1 && (int)ft_strlen(result) > precision)
-	{
-		tmp = result;
-		result = ft_strsub(result, 0, precision);
-		ft_strdel(&tmp);
-	}
-	return (result);
-}
-
 char	*precision(char	*result, t_stack *stack)
 {
 	char *tmp;
 	char *sub;
 	int i;
 
-	if (result && ft_strchr("diouxXp", stack->format))
+	if (result && ft_strchr("diouxXpb", stack->format))
 	{
 		i = 0;
 		if (ft_strcmp(result, "0"))
-			while (result && result[i] && (result[i] < '1' || result[i] > '9'))
+			while (result && result[i] && ft_strchr("0xXb+- ", result[i]))
 				i++;
 		if (!(sub = ft_strsub(result, 0, i)))
 			return (NULL);
@@ -70,8 +70,6 @@ char	*precision(char	*result, t_stack *stack)
 		return (result);
 	}
 	else if (stack->format == 's')
-	{
 		return (str_precision(result, stack->precision));
-	}
 	return (result);
 }
