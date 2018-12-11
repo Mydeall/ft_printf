@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 12:35:08 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/11 16:53:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/11 16:38:50 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*attributs_caller(char *result, t_stack *stack)
 	return (result);
 }
 
-int		stack_applier(t_stack *stack, va_list ap, char (*buff)[BUFF_SIZE],\
+int		stack_applier(t_stack *stack, va_list ap, char (*buff)[BUFF_SIZE + 1],\
 	   int *len)
 {
 	char	*s;
@@ -74,7 +74,6 @@ int		stack_applier(t_stack *stack, va_list ap, char (*buff)[BUFF_SIZE],\
 	if (!(s = ft_width(s, stack, ft_strlen(s))))
 		return (-1);
 	concat_buff(buff, s, ft_strlen(s), len);
-	printf("buff %.*s size : %d\n",(int)ft_strlen(s), *buff, (int)ft_strlen(s));
-	return (*len);
+	return (len);
 }
 

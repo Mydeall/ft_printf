@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2018/12/10 10:48:11 by ccepre           ###   ########.fr        #
+#    Updated: 2018/12/11 13:46:50 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRC_NAME = ft_printf.c \
 		   ft_conversion.c \
 		   ft_precision.c \
 		   ft_attributs.c \
-		   ft_width.c
+		   ft_width.c \
+		   ft_parser.c
 
 INC_NAME = ft_printf.h
 
@@ -89,3 +90,7 @@ exec : $(NAME)
 sani: $(NAME)
 	gcc -g3 -fsanitize=address $(NAME) $(MAIN_PATH)/main.c -I $(INC_PATH)
 	./a.out
+
+valgrind : $(NAME)
+	@gcc $(NAME) $(MAIN_PATH)/main.c -I $(INC_PATH)
+	@valgrind --leak-check=yes --track-origins=yes ./a.out

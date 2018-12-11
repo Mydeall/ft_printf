@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   declaration.h                                      :+:      :+:    :+:   */
+/*   get_format.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/04 19:55:39 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/11 14:00:34 by ccepre           ###   ########.fr       */
+/*   Created: 2018/12/11 14:00:18 by ccepre            #+#    #+#             */
+/*   Updated: 2018/12/11 14:00:25 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_attributs g_attr_tab[] =
+t_get_format g_format_tab[] =
 {
-	{'#', &ft_hashtag},
-	{'+', &ft_plus},
-	{' ', &ft_space},
+	{"#+-0 ", &get_attributs},
+	{"0123456789", &get_width},
+	{".", &get_precision},
+	{"hlL", &get_modifier},
 };
