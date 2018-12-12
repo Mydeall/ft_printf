@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:26:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/10 19:12:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 17:51:23 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,29 @@ static char	*int_precision(char *result, int precision)
 		ft_strdel(&str);
 	}
 	else if (result && precision == 0 && !(ft_strcmp(result, "0")))
-	{
-		ft_strdel(&result);
 		result = ft_strnew(1);
+	return (result);
+}
+
+char *double_precision(char *result, int precision, int len)
+{
+	char *strz;
+	char *tmp;
+	if (precision == 0)
+	{
+		tmp = result;
+		result = ft_strsub(result, 0, ft_strlen(result) - (len + 1));
+		ft_strdel(&tmp);
+		return (result);
 	}
+	if (!(strz = (char*)malloc(precision - len + 1)))
+		return (NULL);
+	strz = ft_memset(strz, '0', precision - len);
+	strz[precision - len] = 0;
+	tmp = result;
+	result = ft_strjoin(result, strz);
+	ft_strdel(&strz);
+	ft_strdel(&tmp);
 	return (result);
 }
 
@@ -62,11 +81,13 @@ char	*precision(char	*result, t_stack *stack)
 			return (NULL);
 		tmp = result;
 		result = int_precision(&result[i], stack->precision);
-//		ft_strdel(&tmp);
+		if (tmp != result)
+			ft_strdel(&tmp);
 		tmp = result;
 		result = ft_strjoin(sub, result);
-	//	ft_strdel(&tmp);
-	//	ft_strdel(&sub);
+		if (tmp != result)
+			ft_strdel(&tmp);
+		ft_strdel(&sub);
 		return (result);
 	}
 	else if (stack->format == 's')

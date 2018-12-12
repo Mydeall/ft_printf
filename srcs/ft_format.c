@@ -6,84 +6,93 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:33:41 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/11 12:41:00 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 17:47:57 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*int_format(ULLI arg, t_stack *stack)
+int	int_format(va_list ap, t_stack *stack, char **result)
 {
-	char	*result;
 	char	*tmp;
+	ULLI arg;
 	long long int cpy;
 	ULLI	ucpy;
-	
+
+	arg = va_arg(ap, ULLI);
 	if (stack->format == 'd' || stack->format == 'i')
 	{
 		cpy = int_modifier(arg, stack);
-		result = ft_itoa(cpy);
+		*result = ft_itoa(cpy);
 	}
 	else
 	{
 		ucpy = unsigned_modifier(arg, stack);
-		result = unsigned_conversion(ucpy, stack);
+		*result = unsigned_conversion(ucpy, stack);
 	}
-	result = precision(result, stack);
+	if (stack->precision != -1)
+		*result = precision(*result, stack);
 	if (stack->format == 'p')
 	{
-		tmp = result;
-		result = ft_strjoin("0x", result);
+		tmp = *result;
+		*result = ft_strjoin("0x", *result);
 		ft_strdel(&tmp);
 	}
-	return (result);
+	return (ft_strlen(*result));
 }
 
-char	*str_format(char *arg, t_stack *stack)
+int	str_format(va_list ap, t_stack *stack, char **result)
 {
-	char	*result;
-
-	result = ft_strdup(arg);
-	result = precision(result, stack);
-	return (result);
+	*result = ft_strdup(va_arg(ap, char*));
+	if (stack->precision != -1)
+		*result = precision(*result, stack);
+	else if (!(*result))
+		*result = ft_strdup("(null)");
+	return (ft_strlen(*result));
 }
 
-int		char_format(int arg, t_stack *stack)
+int	char_format(va_list ap, t_stack *stack, char **result)
 {
-	char	*result;
-	int		len;
+	int		arg;
 
-	if (!(result = (char*)ft_memalloc(2)))
+	(void)stack;
+	if (!(*result = (char*)ft_memalloc(2)))
 		return (-1);
-	*result = (char)arg;
-	if (!(result = ft_width(result, stack, 1)))
-		return (-1);
-	len = ft_strlen(result);
-	len = arg == 0 ? len + 1 : len;
-	write(1, result, len);
-	return (len);
+	arg = va_arg(ap, int);
+	**result = (char)arg;
+	return (1);
 }
 
-char	*f_format(long double arg, t_stack *stack)
+int	double_format(va_list ap, t_stack *stack, char **result)
 {
-	char 	*result;
-	char 	*tmp;
-	char	*tmp2;
-	int		len;
+	int			len;
+	long double arg;
 
-	arg = f_modifier(arg, stack);
-	result = ft_dtoa(arg, stack->precision);
-	len = (int)ft_strlen(ft_strchr(result, '.'));
-	if (len < stack->precision)
-	{
-		if (!(tmp = (char*)malloc(stack->precision - len + 2)))
-			return (NULL);
-		tmp = ft_memset(tmp, '0', stack->precision - len + 1);
-		tmp [stack->precision - len + 1] = 0;
-		tmp2 = result;
-		result = ft_strjoin(result, tmp);
-		ft_strdel(&tmp);
-		ft_strdel(&tmp2);
-	}
-	return (result);
+	if (stack->modifier && !ft_strcmp("L", stack->modifier))
+		arg = va_arg(ap, long double);
+	else
+		arg = va_arg(ap, double);
+	printf("arg : |%Lf|\n", arg);
+	if (stack->precision == -1)
+		stack->precision = 6;
+	if (!(*result = ft_dtoa(arg, stack->precision)))
+		return (-1);
+	printf("result : |%s|\n", *result);
+	len = (int)ft_strlen(ft_strchr(*result, '.')) - 1;
+	printf("len after . : %d\n", len);
+	printf("precision : %d\n", stack->precision);
+	if (len < stack->precision || stack->precision == 0)
+		if (!(*result = double_precision(*result, stack->precision, len)))
+			return (-1);
+	return (ft_strlen(*result));
+}
+
+int	percent_format(va_list ap, t_stack *stack, char **result)
+{
+	(void)ap;
+	(void)stack;
+	if (!(*result = (char*)ft_memalloc(2)))
+		return (-1);
+	**result = '%';
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 11:33:51 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/11 15:28:12 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 17:00:26 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_format_parser(const char *restrict format, t_stack *new)
 				break ;
 			}
 	}
-	if (format[i] != 0)
+	if (format[i])
 	{
 		new->format = format[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:06:56 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/11 16:57:04 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 16:09:25 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static size_t	ft_arg(const char * restrict * format,\
 	if ((i = ft_format_parser(*format, stack)) == -1)
 		return (-1);
 	*format = &(*format)[i];
-	if ((len = stack_applier(stack, ap, buff, &len)) == -1)
+	if ((len = ft_stack_applier(stack, ap, buff, &len)) == -1)
 		return (-1);
-	printf("buff %.*s| size : %d\n", len, *buff, len);
 	node_reset(stack);
 	return (len);
 }
@@ -45,6 +44,7 @@ void	concat_buff(char (*buff)[BUFF_SIZE], char *str, int i,\
 			j = -1;
 		}
 	}
+	*len += j;
 }
 
 int	ft_printf(const char *restrict format, ...)
@@ -65,16 +65,15 @@ int	ft_printf(const char *restrict format, ...)
 		if (format[i] == '%')
 		{
 			concat_buff(&buff, (char*)format, i, &len);
-			printf("buff %.*s| size : %d\n", len, buff, len);
 			format = &format[i];
-			len += i;
 			i = -1;
 			if ((len = ft_arg(&format, stack, ap, &buff, len)) == -1)// EST-CE QU'IL FAUT VRAIMENT COUPER SI -1?
 				return (-1);
 		}
-	len += i;
-	printf("buff %.*s| size : %d\n", 11, buff, len);
+	concat_buff(&buff, (char*)format, i, &len);
+	//printf("buff end |%.*s|\n size : %d\n", len, buff, len);
 	write(1, buff, len % BUFF_SIZE);
+	free_node(stack);
 	va_end(ap);
 	return (len);
 }

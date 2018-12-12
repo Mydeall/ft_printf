@@ -6,15 +6,41 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 12:35:08 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/11 16:53:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 16:07:18 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "declaration.h"
+#include "format_caller.h"
 #include <stdarg.h>
 
-char	*attributs_caller(char *result, t_stack *stack)
+static int	format_caller(va_list ap, char **result, t_stack *stack)
+{
+	int i;
+	int len_arg;
+
+	i = -1;
+	while (++i < 5)
+	{
+			if (ft_strchr(g_call_format[i].format, stack->format))
+			{
+				if ((len_arg = g_call_format[i].f(ap, stack, result)) == -1)
+					return (-1);
+				break;
+			}
+	}
+	if (i == 5)	
+	{
+		if (!(*result = (char*)ft_memalloc(2)))
+			return (-1);
+		**result = stack->format;
+		len_arg = 1;
+	}
+	return (len_arg);
+}
+
+static int	attributs_caller(char **result, t_stack *stack, int len_arg)
 {
 	int i;
 	int j;
@@ -26,55 +52,30 @@ char	*attributs_caller(char *result, t_stack *stack)
 		while (++j < 3)
 			if (g_attr_tab[j].attr == (stack->attributs)[i])
 			{
-				if (!(result = g_attr_tab[j].f(result, stack)))
-					return (NULL);
+				if ((len_arg = g_attr_tab[j].f(result, stack, len_arg)) == -1)
+					return (-1);
 				break;
 			}
 	}
-	return (result);
+	return (len_arg);
 }
 
-int		stack_applier(t_stack *stack, va_list ap, char (*buff)[BUFF_SIZE],\
-	   int *len)
+int			ft_stack_applier(t_stack *stack, va_list ap,\
+		char (*buff)[BUFF_SIZE], int *len)
 {
-	char	*s;
-	ULLI	d;
-	long double	f;
+	char	*result;
+	int		len_arg;
 
-	if (!(s = (char*)ft_memalloc(2)))
+	if ((len_arg = format_caller(ap, &result, stack)) == -1)
 		return (-1);
-	if (stack->format == 's')
-	{
-		s = va_arg(ap, char*);
-		if (!(s = str_format(s, stack)) && stack->precision == -1)
-			s = ft_strdup("(null)");
-	}
-	else if (ft_strchr("diouxXpb", stack->format) && stack->format != 0)
-	{
-		d = va_arg(ap, ULLI);
-		if (!(s = int_format(d, stack)))
-			return (-1);
-	}
-	else if (stack->format == 'c')
-		return (char_format(va_arg(ap, int), stack));
-	else if (stack->format == 'f')
-	{
-		f = va_arg(ap, long double);
-		s = f_format(f, stack);
-	}
-	else if (stack->format == '%')
-		*s = '%';
-	else
-		*s = stack->format;
-	if (!s)
+	if (!result)
 		return (0);
-	if (!(s = attributs_caller(s, stack)))
+	if ((len_arg = attributs_caller(&result, stack, len_arg)) == -1)
 		return (-1);
-//	printf("s : |%s|\n", s);
-	if (!(s = ft_width(s, stack, ft_strlen(s))))
+	if ((len_arg = ft_width(&result, stack, len_arg)) == -1)
 		return (-1);
-	concat_buff(buff, s, ft_strlen(s), len);
-	printf("buff %.*s size : %d\n",(int)ft_strlen(s), *buff, (int)ft_strlen(s));
+	concat_buff(buff, result, len_arg, len);
+	ft_strdel(&result);
 	return (*len);
 }
 

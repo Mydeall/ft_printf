@@ -6,13 +6,12 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:13:55 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/10 14:28:57 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 16:43:54 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-// particulier pour f
 // ATTENTION c accepte les modifier (gere comme un int ?)
 // Ne pas prendre s ni p
 

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 16:06:25 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/04 12:02:51 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/12 15:00:15 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,13 @@ void		node_reset(t_stack *lst)
 	lst->width = 0;
 	lst->precision = -1;
 	lst->format = 0;
+}
+
+void	free_node(t_stack *lst)
+{
+	if (lst->attributs)
+		ft_strdel(&lst->attributs);
+	if (lst->modifier)
+		ft_strdel(&lst->modifier);
+	free(lst);
 }
