@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:11:42 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/12 16:06:06 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/13 13:16:36 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static char	*digit_zero(char **result, char *strz)
 {
-	char *tmp;
-	char *sub;
-	int i;
+	char	*tmp;
+	char	*sub;
+	int		i;
 
 	i = 0;
 	while ((ft_strchr("0xXb+- ", (*result)[i])) && (*result)[i] != 0)
@@ -51,7 +51,7 @@ static int	ft_zero(char **result, t_stack *stack, int len_arg)
 	return (len_arg);
 }
 
-int		ft_width(char **result, t_stack *stack, int len_arg)
+int			ft_width(char **result, t_stack *stack, int len_arg)
 {
 	char	*str;
 	char	*tmp;
@@ -61,12 +61,12 @@ int		ft_width(char **result, t_stack *stack, int len_arg)
 		if (stack->attributs && ft_strchr(stack->attributs, '0') &&\
 				(stack->precision == -1 || ft_strchr("cs", stack->format))\
 				&& !ft_strchr(stack->attributs, '-'))
-			return(ft_zero(result, stack, len_arg));
+			return (ft_zero(result, stack, len_arg));
 		if (!(str = (char*)ft_memalloc(stack->width - len_arg + 1)))
 			return (-1);
 		ft_memset(str, ' ', stack->width - len_arg);
 		tmp = *result;
-		if (stack->attributs &&  ft_strchr(stack->attributs, '-'))
+		if (stack->attributs && ft_strchr(stack->attributs, '-'))
 			*result = ft_strjoin(*result, str);
 		else
 			*result = ft_strjoin(str, *result);

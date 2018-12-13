@@ -6,16 +6,37 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 18:51:37 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/12 14:23:05 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/13 13:15:25 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_hashtag(char **result, t_stack *stack, int len_arg)
+static int	hashtag_application(char **result, t_stack *stack, int len_arg)
 {
-	char *tmp;
-	int verif;
+	if (stack->format == 'o' || stack->format == 'b')
+	{
+		if (stack->format == 'o')
+			*result = ft_strjoin("0", *result);
+		else if (stack->format == 'b')
+			*result = ft_strjoin("b", *result);
+		len_arg += 1;
+	}
+	else if (stack->format == 'x' || stack->format == 'X')
+	{
+		if (stack->format == 'x')
+			*result = ft_strjoin("0x", *result);
+		else if (stack->format == 'X')
+			*result = ft_strjoin("0X", *result);
+		len_arg += 2;
+	}
+	return (len_arg);
+}
+
+int			ft_hashtag(char **result, t_stack *stack, int len_arg)
+{
+	char	*tmp;
+	int		verif;
 
 	if (!(ft_strchr("oxXfb", stack->format)))
 		return (len_arg);
@@ -27,38 +48,23 @@ int	ft_hashtag(char **result, t_stack *stack, int len_arg)
 		verif = 0;
 		while ((*result)[verif] == '0')
 			verif++;
-		if (verif == len_arg &&	!(stack->precision == 0 && len_arg == 0 &&\
+		if (verif == len_arg && !(stack->precision == 0 && len_arg == 0 && \
 					stack->format == 'o'))
 			return (len_arg);
-		if (stack->format == 'o' || stack->format == 'b')
-		{
-			if (stack->format == 'o')
-				*result = ft_strjoin("0", *result);
-			else if (stack->format == 'b')
-				*result = ft_strjoin("b", *result);
-			len_arg += 1;
-		}
-		else if (stack->format == 'x' || stack->format == 'X')
-		{
-			if (stack->format == 'x')
-				*result = ft_strjoin("0x", *result);
-			else if (stack->format == 'X')
-				*result = ft_strjoin("0X", *result);
-			len_arg += 2;
-		}
+		len_arg = hashtag_application(result, stack, len_arg);
 	}
 	if (tmp != *result)
 		ft_strdel(&tmp);
 	return (len_arg);
 }
 
-int	ft_plus(char **result, t_stack *stack, int len_arg)
+int			ft_plus(char **result, t_stack *stack, int len_arg)
 {
 	char *tmp;
 
 	if (ft_strchr("dif", stack->format))
 	{
-		if (ft_atoi(*result) >= 0) // WARNING AT ATOI WHEN DOUBLE (SEPARATE ?)
+		if (!ft_strchr(*result, '-'))
 		{
 			tmp = *result;
 			*result = ft_strjoin("+", *result);
@@ -69,13 +75,13 @@ int	ft_plus(char **result, t_stack *stack, int len_arg)
 	return (len_arg);
 }
 
-int	ft_space(char **result, t_stack *stack, int len_arg)
+int			ft_space(char **result, t_stack *stack, int len_arg)
 {
 	char *tmp;
 
 	if (ft_strchr("dif", stack->format) && !ft_strchr(stack->attributs, '+'))
 	{
-		if (ft_atoi(*result) >= 0) // IDEM
+		if (!ft_strchr(*result, '-'))
 		{
 			tmp = *result;
 			*result = ft_strjoin(" ", *result);
@@ -83,5 +89,5 @@ int	ft_space(char **result, t_stack *stack, int len_arg)
 			ft_strdel(&tmp);
 		}
 	}
-	return (len_arg);	
+	return (len_arg);
 }

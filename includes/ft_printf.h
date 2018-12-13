@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 11:22:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/12 17:23:41 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/13 14:56:49 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include "libft.h"
 # include <stdarg.h>
-# define BUFF_SIZE 10000
+# define BUFF_SIZE 1000
 
 typedef unsigned long long int ULLI;
 

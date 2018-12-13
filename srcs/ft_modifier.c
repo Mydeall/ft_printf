@@ -6,16 +6,13 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:13:55 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/12 16:43:54 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/13 14:51:27 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-// ATTENTION c accepte les modifier (gere comme un int ?)
-// Ne pas prendre s ni p
-
-long long int int_modifier(ULLI arg, t_stack *stack)
+long long int	int_modifier(ULLI arg, t_stack *stack)
 {
 	if (!(stack->modifier))
 		return ((int)arg);

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 11:33:51 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/12 17:00:26 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/13 14:42:27 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 int	get_attributs(t_stack *new, const char *restrict format, int *i)
 {
+	char	*attributs;
 	char	*tmp;
-	char	*tmp2;
 
 	if (!(new->attributs))
 		new->attributs = ft_strsub(&format[*i], 0, 1);
 	else if (!(ft_strchr(new->attributs, format[*i])))
 	{
-		tmp = ft_strsub(&format[*i], 0, 1);
-		tmp2 = new->attributs;
-		if (!(new->attributs = ft_strjoin(new->attributs, tmp)))
+		attributs = ft_strsub(&format[*i], 0, 1);
+		tmp = new->attributs;
+		if (!(new->attributs = ft_strjoin(new->attributs, attributs)))
 			return (-1);
+		ft_strdel(&attributs);
 		ft_strdel(&tmp);
-		ft_strdel(&tmp2);
 	}
 	return (0);
 }

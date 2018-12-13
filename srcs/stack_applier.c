@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 12:35:08 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/12 16:07:18 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/13 14:07:18 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static int	format_caller(va_list ap, char **result, t_stack *stack)
 	i = -1;
 	while (++i < 5)
 	{
-			if (ft_strchr(g_call_format[i].format, stack->format))
-			{
-				if ((len_arg = g_call_format[i].f(ap, stack, result)) == -1)
-					return (-1);
-				break;
-			}
+		if (ft_strchr(g_call_format[i].format, stack->format))
+		{
+			if ((len_arg = g_call_format[i].f(ap, stack, result)) == -1)
+				return (-1);
+			break ;
+		}
 	}
-	if (i == 5)	
+	if (i == 5)
 	{
 		if (!(*result = (char*)ft_memalloc(2)))
 			return (-1);
@@ -54,7 +54,7 @@ static int	attributs_caller(char **result, t_stack *stack, int len_arg)
 			{
 				if ((len_arg = g_attr_tab[j].f(result, stack, len_arg)) == -1)
 					return (-1);
-				break;
+				break ;
 			}
 	}
 	return (len_arg);
@@ -78,4 +78,3 @@ int			ft_stack_applier(t_stack *stack, va_list ap,\
 	ft_strdel(&result);
 	return (*len);
 }
-
