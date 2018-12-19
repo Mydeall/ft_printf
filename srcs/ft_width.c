@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:11:42 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/13 13:16:36 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/19 15:12:52 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,42 @@ static int	ft_zero(char **result, t_stack *stack, int len_arg)
 	return (len_arg);
 }
 
+static char	*concat_str(char *result, char *str, t_stack *stack, int len_arg)
+{
+	int		i;
+	int		str_pos;
+	char	*tmp;
+
+	i = -1;
+	str_pos = stack->width - len_arg;
+	if (stack->attributs && ft_strchr(stack->attributs, '-'))
+		str_pos = 0;
+	while (++i < len_arg)
+		str[i + str_pos] = result[i];
+	tmp = result;
+	result = str;
+	ft_strdel(&tmp);
+	return (result);
+}
+
 int			ft_width(char **result, t_stack *stack, int len_arg)
 {
 	char	*str;
-	char	*tmp;
 
 	if (len_arg < stack->width)
 	{
 		if (stack->attributs && ft_strchr(stack->attributs, '0') &&\
-				(stack->precision == -1 || ft_strchr("cs", stack->format))\
+				(stack->precision == -1 ||\
+				!ft_strchr("diouxXpbf", stack->format))\
 				&& !ft_strchr(stack->attributs, '-'))
 			return (ft_zero(result, stack, len_arg));
-		if (!(str = (char*)ft_memalloc(stack->width - len_arg + 1)))
+		if (!(str = (char*)ft_memalloc(stack->width + 1)))
 			return (-1);
-		ft_memset(str, ' ', stack->width - len_arg);
-		tmp = *result;
-		if (stack->attributs && ft_strchr(stack->attributs, '-'))
-			*result = ft_strjoin(*result, str);
-		else
-			*result = ft_strjoin(str, *result);
+		ft_memset(str, ' ', stack->width);
+		*result = concat_str(*result, str, stack, len_arg);
 		if (!(*result))
 			return (-1);
 		len_arg += stack->width - len_arg;
-		ft_strdel(&str);
-		if (tmp != *result)
-			ft_strdel(&tmp);
 	}
 	return (len_arg);
 }

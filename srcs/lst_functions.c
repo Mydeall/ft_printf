@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 14:04:39 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/13 14:37:45 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/14 12:47:33 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_node(t_stack *current)
 	if (current->modifier)
 		ft_putstr(current->modifier);
 	ft_putstr("|\nformat : |");
-	ft_putstr(&current->format);
+	ft_putchar(current->format);
 	ft_putendl("|\n}");
 }
 

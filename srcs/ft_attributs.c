@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 18:51:37 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/13 13:15:25 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/17 17:03:08 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static int	hashtag_application(char **result, t_stack *stack, int len_arg)
 {
-	if (stack->format == 'o' || stack->format == 'b')
+	if ((stack->format == 'o' && *result[0] != '0') || stack->format == 'b')
 	{
 		if (stack->format == 'o')
 			*result = ft_strjoin("0", *result);
-		else if (stack->format == 'b')
-			*result = ft_strjoin("b", *result);
 		len_arg += 1;
 	}
 	else if (stack->format == 'x' || stack->format == 'X')
 	{
 		if (stack->format == 'x')
 			*result = ft_strjoin("0x", *result);
+		else if (stack->format == 'b')
+			*result = ft_strjoin("0b", *result);
 		else if (stack->format == 'X')
 			*result = ft_strjoin("0X", *result);
 		len_arg += 2;

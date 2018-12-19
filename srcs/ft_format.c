@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:33:41 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/13 13:12:48 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/18 15:43:22 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,18 @@ int	int_format(va_list ap, t_stack *stack, char **result)
 
 int	str_format(va_list ap, t_stack *stack, char **result)
 {
-	*result = ft_strdup(va_arg(ap, char*));
+	char *arg;
+
+	arg = va_arg(ap, char*);
+	if (!(arg) && stack->precision != -1)
+		*result = ft_memalloc(1);
+	else if (arg && !(*result = ft_strdup(arg)))
+		return (-1);
 	if (stack->precision != -1)
 		*result = precision(*result, stack);
 	else if (!(*result))
 		*result = ft_strdup("(null)");
-	return (ft_strlen(*result));
+	return ((int)ft_strlen(*result));
 }
 
 int	char_format(va_list ap, t_stack *stack, char **result)
@@ -75,6 +81,7 @@ int	double_format(va_list ap, t_stack *stack, char **result)
 		stack->precision = 6;
 	if (!(*result = ft_dtoa(arg, stack->precision)))
 		return (-1);
+	printf("result : %s\n", *result); 
 	return (ft_strlen(*result));
 }
 

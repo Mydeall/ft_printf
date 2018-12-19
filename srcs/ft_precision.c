@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:26:35 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/13 13:21:12 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/14 14:16:50 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static char	*str_precision(char *result, int precision)
 	return (result);
 }
 
-static char	*int_precision(char *result, int precision)
+static char	*int_precision(char *result, int i, int precision)
 {
 	char	*str;
 	char	*tmp;
 
-	if (result && (int)ft_strlen(result) < precision)
+	if (result && (int)ft_strlen(&result[i]) < precision)
 	{
 		if (!(str = (char*)ft_memalloc(precision - ft_strlen(result) + 1)))
 			return (NULL);
@@ -64,11 +64,13 @@ char		*precision(char *result, t_stack *stack)
 				i++;
 		if (!(sub = ft_strsub(result, 0, i)))
 			return (NULL);
-		result = int_precision(&result[i], stack->precision);
+		tmp = result;
+		result = ft_strdup(&result[i]);
+		ft_strdel(&tmp);
+		result = int_precision(result, i, stack->precision);
 		tmp = result;
 		result = ft_strjoin(sub, result);
-		if (tmp != result)
-			ft_strdel(&tmp);
+		ft_strdel(&tmp);
 		ft_strdel(&sub);
 		return (result);
 	}

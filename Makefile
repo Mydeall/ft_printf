@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2018/12/11 13:46:50 by ccepre           ###   ########.fr        #
+#    Updated: 2018/12/18 18:13:05 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,18 +41,20 @@ LIB_NAME = ft_itoa.c\
 		   ft_itoa_base.c\
 		   ft_itoa_base_signed.c \
 		   ft_dputnbr.c \
-		   ft_dtoa.c
+		   ft_dtoa.c \
+		   ft_pow.c
 
 SRC_NAME = ft_printf.c \
 		   lst_functions.c \
-		   stack_applier.c \
+		   ft_stack_applier.c \
 		   ft_format.c \
 		   ft_modifier.c \
 		   ft_conversion.c \
 		   ft_precision.c \
 		   ft_attributs.c \
 		   ft_width.c \
-		   ft_parser.c
+		   ft_parser.c \
+		   ft_parser_fct.c
 
 INC_NAME = ft_printf.h
 
