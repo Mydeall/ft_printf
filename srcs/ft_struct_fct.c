@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_struct_fct.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/21 12:07:24 by ccepre            #+#    #+#             */
+/*   Updated: 2018/12/21 12:07:26 by ccepre           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 t_get_format	*make_format_tab(void)
 {
 	t_get_format	*format_tab;
 
-	printf("get_formaOK\n");
-	if (!(format_tab = (t_get_format*)malloc(sizeof(t_get_format) * 3)))
+	if (!(format_tab = (t_get_format*)malloc(sizeof(t_get_format) * 4)))
 		return (NULL);
 	format_tab[0].format = "#+-0 ";
 	format_tab[0].f = &get_attributs;
@@ -22,10 +33,8 @@ t_call_format	*make_call_format(void)
 {
 	t_call_format *call_format;
 
-	printf("call_formaOK\n");
 	if (!(call_format = (t_call_format*)malloc(sizeof(t_call_format) * 5)))
 		return (NULL);
-	printf("OK\n");
 	call_format[0].format = "diouxXpb";
 	call_format[0].f = &int_format;
 	call_format[1].format = "s";
@@ -43,10 +52,8 @@ t_attributs		*make_call_attr(void)
 {
 	t_attributs *call_attr;
 
-	printf("call_aatr OK\n");
 	if (!(call_attr = (t_attributs*)malloc(sizeof(t_attributs) * 3)))
 		return (NULL);
-	printf("OK\n");
 	call_attr[0].attr = '#';
 	call_attr[0].f = &ft_hashtag;
 	call_attr[1].attr = '+';

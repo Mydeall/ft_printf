@@ -6,29 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 14:04:39 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/14 12:47:33 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/21 12:14:49 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-void	print_node(t_stack *current)
-{
-	ft_putendl("{");
-	ft_putstr("Attributs : |");
-	if (current->attributs)
-		ft_putstr(current->attributs);
-	ft_putstr("|\nWidth : ");
-	ft_putnbr(current->width);
-	ft_putstr("\nPrecision : |");
-	ft_putnbr(current->precision);
-	ft_putstr("|\nModifier : |");
-	if (current->modifier)
-		ft_putstr(current->modifier);
-	ft_putstr("|\nformat : |");
-	ft_putchar(current->format);
-	ft_putendl("|\n}");
-}
 
 void	node_reset(t_stack *lst)
 {

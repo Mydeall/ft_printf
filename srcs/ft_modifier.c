@@ -6,13 +6,13 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:13:55 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/13 14:51:27 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/21 13:15:42 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-long long int	int_modifier(ULLI arg, t_stack *stack)
+long long int	int_modifier(t_ulli arg, t_stack *stack)
 {
 	if (!(stack->modifier))
 		return ((int)arg);
@@ -27,7 +27,7 @@ long long int	int_modifier(ULLI arg, t_stack *stack)
 	return ((int)arg);
 }
 
-ULLI			unsigned_modifier(ULLI arg, t_stack *stack)
+t_ulli			unsigned_modifier(t_ulli arg, t_stack *stack)
 {
 	if (stack->format == 'p')
 		return (arg);

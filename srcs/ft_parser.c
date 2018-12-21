@@ -5,22 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/11 11:33:51 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/19 17:34:03 by ccepre           ###   ########.fr       */
+/*   Created: 2018/12/21 12:05:18 by ccepre            #+#    #+#             */
+/*   Updated: 2018/12/21 12:05:20 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-/*
-t_get_format format_tab[] =
-{
-	{"#+-0 ", &get_attributs},
-	{"0123456789*", &get_width},
-	{".", &get_precision},
-	{"hlL", &get_modifier},
-};
-*/
 
 int	get_attributs(t_stack *new, const char *restrict format, int *i, va_list ap)
 {
@@ -37,7 +27,7 @@ int	get_attributs(t_stack *new, const char *restrict format, int *i, va_list ap)
 		if (!(new->attributs = ft_strjoin(new->attributs, attributs)))
 			return (-1);
 		ft_strdel(&attributs);
-	//	ft_strdel(&tmp);
+		ft_strdel(&tmp);
 	}
 	return (0);
 }
@@ -45,7 +35,7 @@ int	get_attributs(t_stack *new, const char *restrict format, int *i, va_list ap)
 int	get_modifier(t_stack *new, const char *restrict format, int *i, va_list ap)
 {
 	(void)ap;
-//	ft_strdel(&new->modifier);
+	ft_strdel(&new->modifier);
 	if (format[*i + 1] == format[*i] && format[*i] != 'L')
 	{
 		if (!(new->modifier = ft_strsub(format, *i, 2)))
@@ -104,14 +94,12 @@ int	get_width(t_stack *new, const char *restrict format, int *i, va_list ap)
 }
 
 int	ft_format_parser(const char *restrict format, t_stack *new,\
-		t_struct_tab struct_tab)
+		t_struct_tab struct_tab, va_list ap)
 {
 	int		i;
 	int		j;
-//	t_get_format	*format_tab;
 
 	i = 0;
-//	format_tab = make_format_tab();
 	while (ft_strchr("#+-0 .0123456789hlL*", format[++i]) && format[i] != 0)
 	{
 		j = -1;
@@ -119,7 +107,7 @@ int	ft_format_parser(const char *restrict format, t_stack *new,\
 			if (ft_strchr(struct_tab.format_tab[j].format, format[i]))
 			{
 				if (struct_tab.format_tab[j].f(new, format, &i,\
-							struct_tab.ap) == -1)
+							ap) == -1)
 					return (-1);
 				break ;
 			}
@@ -129,6 +117,5 @@ int	ft_format_parser(const char *restrict format, t_stack *new,\
 		new->format = format[i];
 		i++;
 	}
-	print_node(new);
 	return (i);
 }

@@ -6,13 +6,13 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:19:16 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/10 18:57:51 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/21 13:16:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*unsigned_conversion(ULLI arg, t_stack *stack)
+char	*unsigned_conversion(t_ulli arg, t_stack *stack)
 {
 	if (stack->format == 'o')
 		return (ft_itoa_base(arg, "01234567"));

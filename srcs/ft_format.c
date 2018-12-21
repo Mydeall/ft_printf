@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:33:41 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/18 15:43:22 by ccepre           ###   ########.fr       */
+/*   Updated: 2018/12/21 13:15:26 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	int_format(va_list ap, t_stack *stack, char **result)
 {
 	char			*tmp;
-	ULLI			arg;
+	t_ulli			arg;
 	long long int	cpy;
-	ULLI			ucpy;
+	t_ulli			ucpy;
 
-	arg = va_arg(ap, ULLI);
+	arg = va_arg(ap, t_ulli);
 	if (stack->format == 'd' || stack->format == 'i')
 	{
 		cpy = int_modifier(arg, stack);
@@ -81,7 +81,6 @@ int	double_format(va_list ap, t_stack *stack, char **result)
 		stack->precision = 6;
 	if (!(*result = ft_dtoa(arg, stack->precision)))
 		return (-1);
-	printf("result : %s\n", *result); 
 	return (ft_strlen(*result));
 }
 
